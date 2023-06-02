@@ -1,10 +1,12 @@
 from fastapi import FastAPI, status
+from fastapi.responses import RedirectResponse
 from .util.database import engine
 from .model import user
 from .controller import auth, game
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
+from .util.config import URL_PATH
 
 
 app = FastAPI()
@@ -15,6 +17,10 @@ user.Base.metadata.create_all(bind = engine)
 app.include_router(auth.router)
 app.include_router(game.router)
 
+
+@app.get(f'{URL_PATH}')
+async def redirect():
+    return RedirectResponse(f"{URL_PATH}/login")
 
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request, exc):

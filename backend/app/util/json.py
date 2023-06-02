@@ -3,7 +3,7 @@ import json
 
 
 # Method to read .json file by path to .json file
-def readJSON(path_to_file: str, file_name: str):
+def read_JSON(path_to_file: str, file_name: str):
     try:
         file = open(path_to_file)
         data_from_file = json.load(file)

@@ -1,16 +1,6 @@
 from jose import JWTError, jwt
-from decouple import Config, RepositoryEnv
+from ..util.config import SECRET_KEY, ALGORITHM
 import time
-import os
-
-
-cwd = os.getcwd()
-
-DOTENV_FILE = f"{cwd}/resources/.env"
-
-# Security params
-SECRET_KEY = Config(RepositoryEnv(DOTENV_FILE)).get("secret_key")
-ALGORITHM = Config(RepositoryEnv(DOTENV_FILE)).get("algorithm")
 
 
 def generate_access_token(username: str):
@@ -21,8 +11,10 @@ def generate_access_token(username: str):
         "sub": username,
         "exp": expire
     }
+
     encoded_jwt = jwt.encode(
         to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    
     return encoded_jwt
 
 

@@ -19,7 +19,7 @@ class Auth(HTTPBearer):
                     status_code=status.HTTP_403_FORBIDDEN, 
                     detail="Invalid authentication scheme")
             
-            #
+            # Check if access_token not correct
             if not self.verify_jwt(credentials.credentials):
                 raise HTTPException(
                     status_code=status.HTTP_403_FORBIDDEN, 
@@ -31,7 +31,7 @@ class Auth(HTTPBearer):
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="Invalid authorization code")
 
-    def verify_jwt(self, access_token: str):
+    def verify_jwt(self, access_token: str) -> bool:
         valid = verify_access_token(access_token)
         if valid:
             return True
