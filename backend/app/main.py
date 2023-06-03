@@ -1,5 +1,6 @@
 from fastapi import FastAPI, status
 from fastapi.responses import RedirectResponse
+from fastapi.middleware.cors import CORSMiddleware
 from .util.database import engine
 from .model import user
 from .controller import auth, game
@@ -13,6 +14,19 @@ app = FastAPI()
 
 user.Base.metadata.create_all(bind = engine)
 
+# Get access from frontend
+origins = [
+    "http://localhost:5173"
+]
+
+# Set cors settings
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 app.include_router(auth.router)
 app.include_router(game.router)
@@ -22,6 +36,7 @@ app.include_router(game.router)
 async def redirect():
     return RedirectResponse(f"{URL_PATH}/login")
 
+# Handler for exception with incorrect request's
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request, exc):
     reformatted_message = []
