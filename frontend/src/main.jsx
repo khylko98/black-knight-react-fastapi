@@ -1,22 +1,40 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import App from "./App.jsx";
 import { ChakraProvider } from "@chakra-ui/react";
+import AuthProvider from "./components/context/AuthContext";
+import ProtectedRoute from "./components/shared/ProtectedRoute";
 import "./index.css";
+import Background from "./components/shared/Background";
+import Login from "./components/auth/pages/Login";
+import Registration from "./components/auth/pages/Registration";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <Login />, // TODO <Login/>
   },
-  //TODO
+  {
+    path: "/registration",
+    element: <Registration />, // TODO <Registration/>
+  },
+  {
+    path: "/prologue",
+    element: (
+      <ProtectedRoute>
+        <></>
+      </ProtectedRoute>
+    ), // TODO <Prologue/>
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ChakraProvider>
-      <RouterProvider router={router} />
+      <AuthProvider>
+        <Background />
+        <RouterProvider router={router} />
+      </AuthProvider>
     </ChakraProvider>
   </React.StrictMode>
 );

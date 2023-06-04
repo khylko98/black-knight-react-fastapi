@@ -2,34 +2,16 @@ import { Box } from "@chakra-ui/react";
 import background from "./assets/background.mp4";
 import { useEffect } from "react";
 import { getPrologue } from "./services/game";
-import { useToast } from "@chakra-ui/react";
+import { errorNotification } from "./services/error";
 
 function App() {
-  const toast = useToast();
-
   const fetchData = () => {
     getPrologue()
       .then((res) => {
         console.log(res);
       })
       .catch((err) => {
-        toast({
-          position: "top",
-          duration: 3_000,
-          render: () => (
-            <Box
-              p={3}
-              backgroundColor={"rgba(100, 0, 0, 0.3)"}
-              boxShadow={"0 3px 30px black"}
-              borderRadius={"2xl"}
-              fontSize={"2xl"}
-              textColor={"red"}
-              textAlign={"center"}
-            >
-              {`${err}`}
-            </Box>
-          ),
-        });
+        errorNotification(err);
       });
   };
 
