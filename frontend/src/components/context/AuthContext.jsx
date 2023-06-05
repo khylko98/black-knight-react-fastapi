@@ -30,6 +30,14 @@ const AuthProvider = ({ children }) => {
         .then((res) => {
           const jwtToken = res.data.access_token;
           localStorage.setItem("access_token", jwtToken);
+
+          const decodedToken = jwtDecode(jwtToken);
+
+          setUser({
+            username: decodedToken.sub,
+          });
+
+          resolve(res);
         })
         .catch((err) => {
           reject(err);
@@ -43,6 +51,14 @@ const AuthProvider = ({ children }) => {
         .then((res) => {
           const jwtToken = res.data.access_token;
           localStorage.setItem("access_token", jwtToken);
+
+          const decodedToken = jwtDecode(jwtToken);
+
+          setUser({
+            username: decodedToken.sub,
+          });
+
+          resolve(res);
         })
         .catch((err) => {
           reject(err);
@@ -57,6 +73,7 @@ const AuthProvider = ({ children }) => {
     }
     const { exp: expiration } = jwtDecode(token);
     if (Date.now() > expiration * 1000) {
+      localStorage.removeItem("access_token");
       return false;
     }
     return true;

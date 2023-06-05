@@ -4,9 +4,17 @@ import axios from "axios";
 const URL = "http://localhost:8080";
 
 export const registration = async (usernameAndPassword) => {
-  return await axios.post(`${URL}/api/v1/registration`, usernameAndPassword);
+  try {
+    return await axios.post(`${URL}/api/v1/registration`, usernameAndPassword);
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const login = async (usernameAndPassword) => {
-  return await axios.post(`${URL}/api/v1/login`, usernameAndPassword);
+  try {
+    return await axios.post(`${URL}/api/v1/login`, usernameAndPassword);
+  } catch (error) {
+    throw error;
+  }
 };

@@ -9,6 +9,7 @@ export const errorNotification = (err) => {
     duration: 3000,
     render: () => (
       <Box
+        mt={"10px"}
         p={3}
         backgroundColor={"rgba(100, 0, 0, 0.3)"}
         boxShadow={"0 3px 30px black"}

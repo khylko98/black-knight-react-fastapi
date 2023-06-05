@@ -1,1 +1,9 @@
+@import url("https://fonts.googleapis.com/css?family=Gabriela&display=swap");
 
+* {
+  font-family: "Gabriela";
+}
+
+::-webkit-scrollbar {
+  width: 0;
+}

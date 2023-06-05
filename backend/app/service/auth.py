@@ -13,7 +13,7 @@ def registration(db: Session, user: UserSchema) -> User:
     if user_already_present:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, 
-            detail=f"User with usernane: [{user.username}] already created")
+            detail=f"User with this username already created")
     else:
         new_user = User(**user.dict())
         # Hashing password before saving user in DB
@@ -33,7 +33,7 @@ def login(db: Session, user: UserSchema) -> User:
     if not get_user_by_username:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, 
-            detail=f"User with {user.username} not found")
+            detail=f"User with this username not found")
     
     verificated = Hash.verify(user.password, get_user_by_username.password)
     

@@ -8,6 +8,7 @@ import "./index.css";
 import Background from "./components/shared/Background";
 import Login from "./components/auth/pages/Login";
 import Registration from "./components/auth/pages/Registration";
+import App from "./App";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +23,7 @@ const router = createBrowserRouter([
     path: "/prologue",
     element: (
       <ProtectedRoute>
-        <></>
+        <App />
       </ProtectedRoute>
     ), // TODO <Prologue/>
   },

@@ -4,10 +4,10 @@ const AuthInput = ({ isValid, type, id, placeholder, value, onChange }) => {
   return (
     <Input
       variant="unstyled"
-      w={"-moz-fit-content"}
-      m={"3"}
+      w={"72"}
+      m={"2"}
       p={"3"}
-      fontSize={"17px"}
+      fontSize={"15px"}
       fontWeight={"bold"}
       border={"none"}
       borderBottom={"2px solid white"}
@@ -16,15 +16,13 @@ const AuthInput = ({ isValid, type, id, placeholder, value, onChange }) => {
       _focus={
         isValid
           ? {
-              fontSize: "17px",
-              fontWeight: "bold",
+              fontSize: "18px",
               outline: "none",
               borderBottom: "2px solid rgb(243, 233, 91)",
               color: "white",
             }
           : {
-              fontSize: "17px",
-              fontWeight: "bold",
+              fontSize: "18px",
               outline: "none",
               borderBottom: "2px solid rgb(215, 32, 32)",
               color: "white",
