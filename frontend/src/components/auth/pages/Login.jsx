@@ -21,7 +21,7 @@ const Login = () => {
 
   useEffect(() => {
     if (user) {
-      navigate("/prologue");
+      navigate("/start");
     }
   }, [user]);
 
@@ -54,7 +54,7 @@ const Login = () => {
     isValid &&
       login(usernameAndPassword)
         .then((res) => {
-          navigate("/prologue");
+          navigate("/start");
         })
         .catch((err) => {
           errorNotification(err.response.data.detail);

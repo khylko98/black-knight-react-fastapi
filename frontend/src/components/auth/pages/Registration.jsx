@@ -27,7 +27,7 @@ const Registration = () => {
 
   useEffect(() => {
     if (user) {
-      navigate("/prologue");
+      navigate("/start");
     }
   }, [user]);
 
@@ -69,7 +69,7 @@ const Registration = () => {
     isValid &&
       registration(usernameAndPassword)
         .then((res) => {
-          navigate("/prologue");
+          navigate("/start");
         })
         .catch((err) => {
           errorNotification(err.response.data.detail);

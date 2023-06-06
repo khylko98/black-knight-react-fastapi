@@ -9,6 +9,8 @@ import Background from "./components/shared/Background";
 import Login from "./components/auth/pages/Login";
 import Registration from "./components/auth/pages/Registration";
 import App from "./App";
+import Start from "./components/game/pages/Start";
+import Prologue from "./components/game/pages/Prologue";
 
 const router = createBrowserRouter([
   {
@@ -20,10 +22,18 @@ const router = createBrowserRouter([
     element: <Registration />, // TODO <Registration/>
   },
   {
+    path: "/start",
+    element: (
+      <ProtectedRoute>
+        <Start />
+      </ProtectedRoute>
+    ),
+  },
+  {
     path: "/prologue",
     element: (
       <ProtectedRoute>
-        <App />
+        <Prologue />
       </ProtectedRoute>
     ), // TODO <Prologue/>
   },
