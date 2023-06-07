@@ -4,7 +4,7 @@ import { VStack } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { errorNotification } from "../../../services/error";
 
 const Registration = () => {
@@ -25,11 +25,9 @@ const Registration = () => {
   const { user, registration } = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (user) {
-      navigate("/start");
-    }
-  }, [user]);
+  if (user) {
+    navigate("/start");
+  }
 
   const usernameInputChange = (event) => {
     event.target.value.length >= 5 && event.target.value.length <= 30

@@ -36,6 +36,7 @@ const Start = () => {
           can choose options of actions and choose options in dialogs.
         </Container>
         <Button
+          variant={"unstyled"}
           m={"20px"}
           fontWeight={"600"}
           fontSize={"4xl"}
