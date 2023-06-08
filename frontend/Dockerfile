@@ -1,13 +1,20 @@
+# Use the official Node.js 20 Alpine base image
 FROM node:20-alpine
 
+# Set the working directory inside the container
 WORKDIR /frontend
 
-COPY package*.json .
+# Copy package.json and package-lock.json
+COPY package*.json ./
 
-RUN npm i --silent
+# Install dependencies
+RUN npm ci --only=production
 
-COPY . /frontend
+# Copy the entire project directory to the container
+COPY . .
 
+# Expose the desired port
 EXPOSE 5173
 
+# Start the application
 CMD ["npm", "run", "dev"]

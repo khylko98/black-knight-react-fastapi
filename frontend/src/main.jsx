@@ -24,11 +24,11 @@ import Epilogue from "./components/game/pages/Epilogue";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Login />, // TODO <Login/>
+    element: <Login />,
   },
   {
     path: "/registration",
-    element: <Registration />, // TODO <Registration/>
+    element: <Registration />,
   },
   {
     path: "/start",

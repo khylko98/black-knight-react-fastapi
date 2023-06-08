@@ -1,10 +1,16 @@
 import { useEffect, useState } from "react";
 import { getChapter } from "../../../services/game";
 import { errorNotification } from "../../../services/error";
-import { Center, Box, Text, Button, IconButton, Image } from "@chakra-ui/react";
+import { Center, Box } from "@chakra-ui/react";
 import { useGameContext } from "../../context/GameContext";
 import { useNavigate } from "react-router-dom";
 import talk from "../../../assets/talk.png";
+import GameBox from "../GameBox";
+import GameTitle from "../GameTitle";
+import GameMainText from "../GameMainText";
+import GameOption from "../GameOption";
+import GameOptionResult from "../GameOptionResult";
+import GameNextChapter from "../GameNextChapter";
 
 const FourthChapter = () => {
   const {
@@ -18,17 +24,17 @@ const FourthChapter = () => {
     getError,
   } = useGameContext();
 
-  const chapter = 4;
+  const CHAPTER = 4;
   const [part, setPart] = useState(1);
-  const maxPart = 4;
-  const toNextChapter = part > maxPart;
+  const MAX_PARTS = 4;
+  const TO_NEXT_CHAPTER = part > MAX_PARTS;
 
   const navigate = useNavigate();
 
   const fetchData = () => {
-    if (part <= maxPart) {
+    if (part <= MAX_PARTS) {
       setLoading(true);
-      getChapter(chapter, part)
+      getChapter(CHAPTER, part)
         .then((res) => {
           const { mainText, talkOption, talkOptionResult } = res.data;
           const newData = {
@@ -60,135 +66,37 @@ const FourthChapter = () => {
     getError();
   }
 
-  const handlerClick = () => {
-    navigate("/fifth_chapter");
-  };
-
   return (
-    <Box
-      m={"auto 17%"}
-      position={"absolute"}
-      background={
-        "linear-gradient(" +
-        "transparent 0%," +
-        "currentColor 10%," +
-        "currentColor 95%," +
-        "transparent 100%)"
-      }
-      backgroundClip={"text"}
-      WebkitBackgroundClip={"text"}
-      backgroundAttachment={"fixed"}
-      color={"white"}
-    >
+    <GameBox>
       <Center>
-        <Text
-          maxWidth={"1000px"}
-          m={"20px"}
-          fontSize={"50px"}
-          fontWeight={"700"}
-          textAlign={"center"}
-          color={"transparent"}
-        >
-          FOURTH CHAPTER
-        </Text>
+        <GameTitle title={"FOURTH CHAPTER"} />
       </Center>
       {data.map((block, index) => (
         <Box key={index}>
-          {block.mainText.map((mTparag, mTindex) => (
-            <Text
-              maxWidth={"1000px"}
-              m={"20px 0"}
-              textAlign={"justify"}
-              textIndent={"1.5em"}
-              fontSize={"24px"}
-              fontWeight={"700"}
-              color={"transparent"}
-              key={mTindex}
-            >
-              {mTparag}
-            </Text>
-          ))}
-          {block.isTalkOptionVisible &&
-            block.talkOption.map((tOparag, tOindex) => (
-              <Button
-                variant={"unstyled"}
-                m={"20px 30px"}
-                display={"inline-flex"}
-                alignItems={"center"}
-                justifyContent={"center"}
-                cursor={"pointer"}
-                backgroundColor={"transparent"}
-                color={"#ffffff"}
-                border={"#ffffff"}
-                _hover={{
-                  opacity: 1,
-                  filter: "drop-shadow(0 0 6px white)",
-                }}
-                onClick={() => {
-                  setPart((prev) => prev + 1);
-                  block.isTalkOptionVisible = false;
-                  block.isTalkOptionResultVisible = true;
-                }}
-                leftIcon={
-                  <IconButton
-                    variant={"unstyled"}
-                    icon={<Image src={talk} w={"40px"} />}
-                  />
-                }
-                key={tOindex}
-              >
-                <Text
-                  display={"inline-block"}
-                  textAlign={"left"}
-                  whiteSpace={"initial"}
-                  fontSize={"24px"}
-                >
-                  {tOparag}
-                </Text>
-              </Button>
-            ))}
-          {block.isTalkOptionResultVisible &&
-            block.talkOptionResult.map((tORparag, tORndex) => (
-              <Text
-                maxWidth={"1000px"}
-                m={"20px 0"}
-                textAlign={"justify"}
-                textIndent={"1.5em"}
-                fontSize={"24px"}
-                fontWeight={"700"}
-                color={"transparent"}
-                key={tORndex}
-              >
-                {tORparag}
-              </Text>
-            ))}
+          <GameMainText mainText={block.mainText} />
+          {block.isTalkOptionVisible && (
+            <GameOption
+              option={block.talkOption}
+              image={talk}
+              onClick={() => {
+                setPart((prev) => prev + 1);
+                block.isSwordOptionVisible = false;
+                block.isTalkOptionVisible = false;
+                block.isTalkOptionResultVisible = true;
+              }}
+            />
+          )}
+          {block.isTalkOptionResultVisible && (
+            <GameOptionResult optionResult={block.talkOptionResult} />
+          )}
         </Box>
       ))}
-      {toNextChapter && (
+      {TO_NEXT_CHAPTER && (
         <Center>
-          <Button
-            variant={"unstyled"}
-            m={"20px auto"}
-            display={"inline-flex"}
-            alignItems={"center"}
-            justifyContent={"center"}
-            cursor={"pointer"}
-            backgroundColor={"transparent"}
-            color={"#ffffff"}
-            border={"#ffffff"}
-            _hover={{
-              opacity: "1",
-              textShadow: "0 0 6px rgba(255, 255, 255, 1)",
-            }}
-            onClick={handlerClick}
-          >
-            <Text display={"inline-block"} fontSize={"40px"}>
-              Next Chapter...
-            </Text>
-          </Button>
+          <GameNextChapter onClick={() => navigate("/fifth_chapter")} />
         </Center>
       )}
-    </Box>
+    </GameBox>
   );
 };
 

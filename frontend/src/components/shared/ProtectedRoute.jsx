@@ -12,7 +12,7 @@ const ProtectedRoute = ({ children }) => {
     }
   }, []);
 
-  return isCustomerAuthenticated() ? children : "";
+  return isCustomerAuthenticated() ? children : null;
 };
 
 export default ProtectedRoute;

@@ -3,36 +3,32 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from .token import verify_access_token
 
 
-# Class to control access_token
 class Auth(HTTPBearer):
     def __init__(self, auto_error: bool = True):
-        super(Auth, self).__init__(auto_error = auto_error)
+        super().__init__(auto_error=auto_error)
 
     async def __call__(self, request: Request):
-        credentials: HTTPAuthorizationCredentials = await super(
-            Auth, self).__call__(request)
+        credentials: HTTPAuthorizationCredentials = await super().__call__(request)
         
         if credentials:
-            # Check if access_token have 'Bearer '
-            if not credentials.scheme == "Bearer":
+            if credentials.scheme != "Bearer":
                 raise HTTPException(
                     status_code=status.HTTP_403_FORBIDDEN, 
-                    detail="Invalid authentication scheme")
+                    detail="Invalid authentication scheme"
+                )
             
-            # Check if access_token not correct
             if not self.verify_jwt(credentials.credentials):
                 raise HTTPException(
                     status_code=status.HTTP_403_FORBIDDEN, 
-                    detail="Invalid token or expired token")
+                    detail="Invalid or expired token"
+                )
             
             return credentials.credentials
         else:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
-                detail="Invalid authorization code")
+                detail="Invalid authorization credentials"
+            )
 
     def verify_jwt(self, access_token: str) -> bool:
-        valid = verify_access_token(access_token)
-        if valid:
-            return True
-        return False
+        return verify_access_token(access_token)

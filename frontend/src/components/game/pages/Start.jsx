@@ -6,10 +6,6 @@ import { useNavigate } from "react-router-dom";
 const Start = () => {
   const navigate = useNavigate();
 
-  const handlerClick = () => {
-    navigate("/prologue");
-  };
-
   return (
     <Center>
       <VStack>
@@ -31,9 +27,10 @@ const Start = () => {
             mb={"-3px"}
             mr={"3px"}
           />
-          Khylko on 2023. Story of this game is about a few characters and they
-          path throw big kingdom to destroy giant dragon. In this game player
-          can choose options of actions and choose options in dialogs.
+          Khylko on 2023. The story of this game is about a few characters and
+          their path through a big kingdom to destroy a giant dragon. In this
+          game, the player can choose options for actions and select options in
+          dialogs.
         </Container>
         <Button
           variant={"unstyled"}
@@ -52,7 +49,7 @@ const Start = () => {
               "3px 3px 80px rgb(255, 25, 100)," +
               "3px 3px 120px rgb(255, 25, 0)",
           }}
-          onClick={handlerClick}
+          onClick={() => navigate("/prologue")}
         >
           START GAME
         </Button>

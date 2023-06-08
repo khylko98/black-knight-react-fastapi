@@ -25,8 +25,8 @@ const Login = () => {
 
   const usernameInputChange = (event) => {
     event.target.value.length >= 5 && event.target.value.length <= 30
-      ? setIsUsernameValid((prev) => (prev = true))
-      : setIsUsernameValid((prev) => (prev = false));
+      ? setIsUsernameValid(true)
+      : setIsUsernameValid(false);
     setUsernameAndPassword((prev) => ({
       ...prev,
       username: event.target.value,
@@ -35,21 +35,17 @@ const Login = () => {
 
   const passwordInputChange = (event) => {
     event.target.value.length >= 5 && event.target.value.length <= 50
-      ? setIsPasswordValid((prev) => (prev = true))
-      : setIsPasswordValid((prev) => (prev = false));
+      ? setIsPasswordValid(true)
+      : setIsPasswordValid(false);
     setUsernameAndPassword((prev) => ({
       ...prev,
       password: event.target.value,
     }));
   };
 
-  const handlerClick = () => {
-    navigate("/registration");
-  };
-
   const handlerSubmit = (event) => {
     event.preventDefault();
-    isValid &&
+    if (isValid) {
       login(usernameAndPassword)
         .then((res) => {
           navigate("/start");
@@ -57,6 +53,7 @@ const Login = () => {
         .catch((err) => {
           errorNotification(err.response.data.detail);
         });
+    }
   };
 
   return (
@@ -76,11 +73,11 @@ const Login = () => {
           _hover={{
             borderBottom: "solid rgb(240, 200, 90)",
           }}
-          onClick={handlerClick}
+          onClick={() => navigate("/registration")}
         >
           REGISTRATION
         </Button>
-        <div className="login" action="" method="get">
+        <form className="login" onSubmit={handlerSubmit}>
           <VStack>
             <AuthInput
               isValid={isUsernameValid}
@@ -99,29 +96,29 @@ const Login = () => {
               onChange={passwordInputChange}
             />
           </VStack>
-        </div>
-        <Button
-          m={"20px"}
-          mt={"20px"}
-          mb={"35px"}
-          p={"15px"}
-          w={"300px"}
-          fontWeight={"600"}
-          borderStyle={"none"}
-          borderRadius={"40px"}
-          backgroundColor={
-            isValid ? "rgb(180, 180, 15)" : "rgb(60, 60, 60, 0.5)"
-          }
-          pointerEvents={isValid ? "auto" : "none"}
-          color={"white"}
-          userSelect={"none"}
-          _hover={{
-            backgroundColor: "rgba(190, 170, 15, 0.5)",
-          }}
-          onClick={handlerSubmit}
-        >
-          LOGIN
-        </Button>
+          <Button
+            m={"20px"}
+            mt={"20px"}
+            mb={"35px"}
+            p={"15px"}
+            w={"300px"}
+            fontWeight={"600"}
+            borderStyle={"none"}
+            borderRadius={"40px"}
+            backgroundColor={
+              isValid ? "rgb(180, 180, 15)" : "rgb(60, 60, 60, 0.5)"
+            }
+            pointerEvents={isValid ? "auto" : "none"}
+            color={"white"}
+            userSelect={"none"}
+            _hover={{
+              backgroundColor: "rgba(190, 170, 15, 0.5)",
+            }}
+            type={"submit"}
+          >
+            LOGIN
+          </Button>
+        </form>
       </VStack>
     </AuthBox>
   );

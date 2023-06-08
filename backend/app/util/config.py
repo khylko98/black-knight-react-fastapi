@@ -1,19 +1,21 @@
 from decouple import Config, RepositoryEnv
 import os
 
-
-# Get full path to project dir
+# Get the current working directory
 cwd = os.getcwd()
 
-# Get path to file with settings param
-DOTENV_FILE = f"{cwd}/resources/.env"
+# Get the path to the file with settings parameters
+dotenv_file = os.path.join(cwd, "resources", ".env")
 
-ENV_CONFIG = Config(RepositoryEnv(DOTENV_FILE))
+# Load the environment variables from the .env file
+env_config = Config(RepositoryEnv(dotenv_file))
 
-# Get url path from file .env
-URL_PATH = ENV_CONFIG.get('url_path')
-# Get DB url from file .env
-DATABASE_URL = ENV_CONFIG.get('database_url')
-# Security params
-SECRET_KEY = ENV_CONFIG.get("secret_key")
-ALGORITHM = ENV_CONFIG.get("algorithm")
+# Get the URL path from the environment variables
+url_path = env_config.get("url_path")
+
+# Get the database URL from the environment variables
+database_url = env_config.get("database_url")
+
+# Get the security parameters from the environment variables
+secret_key = env_config.get("secret_key")
+algorithm = env_config.get("algorithm")

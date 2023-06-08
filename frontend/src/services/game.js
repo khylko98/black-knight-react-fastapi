@@ -1,8 +1,5 @@
 import axios from "axios";
 
-// TODO: Make .env and put this url to it
-const URL = "http://localhost:8080";
-
 const getAuthConfig = () => ({
   headers: {
     Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -11,7 +8,10 @@ const getAuthConfig = () => ({
 
 export const getPrologue = async () => {
   try {
-    return await axios.get(`${URL}/api/v1/prologue`, getAuthConfig());
+    return await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/api/v1/prologue`,
+      getAuthConfig()
+    );
   } catch (error) {
     throw error;
   }
@@ -20,7 +20,9 @@ export const getPrologue = async () => {
 export const getChapter = async (chapter, part) => {
   try {
     return await axios.get(
-      `${URL}/api/v1/chapters?chapter=${chapter}&part=${part}`,
+      `${
+        import.meta.env.VITE_BACKEND_URL
+      }/api/v1/chapters?chapter=${chapter}&part=${part}`,
       getAuthConfig()
     );
   } catch (error) {
@@ -30,7 +32,10 @@ export const getChapter = async (chapter, part) => {
 
 export const getEpilogue = async () => {
   try {
-    return await axios.get(`${URL}/api/v1/epilogue`, getAuthConfig());
+    return await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/api/v1/epilogue`,
+      getAuthConfig()
+    );
   } catch (error) {
     throw error;
   }
