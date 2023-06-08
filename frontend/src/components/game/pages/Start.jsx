@@ -19,7 +19,7 @@ const Start = () => {
           borderRadius={"10px"}
         />
         <Container color={"white"} fontSize={"xl"} textAlign={"center"}>
-          This is the fantasy role-playing text browser game created by Mykyta{" "}
+          This is the fantasy text browser game created by Mykyta{" "}
           <Image
             src={signature}
             display={"inline"}
@@ -27,7 +27,7 @@ const Start = () => {
             mb={"-3px"}
             mr={"3px"}
           />
-          Khylko on 2023. The story of this game is about a few characters and
+          Khylko by using ChatGPT on 2023. The story of this game is about a few characters and
           their path through a big kingdom to destroy a giant dragon. In this
           game, the player can choose options for actions and select options in
           dialogs.
