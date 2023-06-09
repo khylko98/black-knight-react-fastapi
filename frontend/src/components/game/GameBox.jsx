@@ -13,7 +13,7 @@ const GameBox = ({ children }) => {
         "transparent 100%)"
       }
       backgroundClip={"text"}
-      WebkitBackgroundClip={"text"}
+      webkitbackgroundclip={"text"}
       backgroundAttachment={"fixed"}
       color={"white"}
     >

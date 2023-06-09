@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { getEpilogue } from "../../../services/game";
 import { errorNotification } from "../../../services/error";
-import { Center, Box, Button } from "@chakra-ui/react";
+import { Center, Box, Button, Text } from "@chakra-ui/react";
 import { useGameContext } from "../../context/GameContext";
 import { useNavigate } from "react-router-dom";
 import GameMainText from "../GameMainText";

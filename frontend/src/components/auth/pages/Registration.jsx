@@ -4,7 +4,7 @@ import { VStack } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { errorNotification } from "../../../services/error";
 
 const Registration = () => {
@@ -16,49 +16,51 @@ const Registration = () => {
   const [isUsernameValid, setIsUsernameValid] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isConfirmPasswordValid, setIsConfirmPasswordValid] = useState(false);
-  const isValid =
-    isUsernameValid &&
-    isPasswordValid &&
-    isConfirmPasswordValid &&
-    usernameAndPassword.password === confirmPassword;
+  const [isValid, setIsValid] = useState(false);
 
   const { user, registration } = useAuth();
   const navigate = useNavigate();
 
-  if (user) {
-    navigate("/start");
-  }
+  useEffect(() => {
+    if (user) {
+      navigate("/start");
+    }
+  }, [user, navigate]);
 
   const usernameInputChange = (event) => {
-    event.target.value.length >= 5 && event.target.value.length <= 30
-      ? setIsUsernameValid(true)
-      : setIsUsernameValid(false);
+    const username = event.target.value;
+    const isValid = username.length >= 5 && username.length <= 30;
+    setIsUsernameValid(isValid);
     setUsernameAndPassword((prev) => ({
       ...prev,
-      username: event.target.value,
+      username: username,
     }));
+    setIsValid(isValid && isPasswordValid && isConfirmPasswordValid);
   };
 
   const passwordInputChange = (event) => {
-    event.target.value.length >= 5 && event.target.value.length <= 50
-      ? setIsPasswordValid(true)
-      : setIsPasswordValid(false);
+    const password = event.target.value;
+    const isValid = password.length >= 5 && password.length <= 50;
+    setIsPasswordValid(isValid);
     setUsernameAndPassword((prev) => ({
       ...prev,
-      password: event.target.value,
+      password: password,
     }));
+    setIsValid(isValid && isUsernameValid && isConfirmPasswordValid);
   };
 
   const confirmPasswordInputChange = (event) => {
-    event.target.value.length >= 5 &&
-    event.target.value.length <= 50 &&
-    event.target.value === usernameAndPassword.password
-      ? setIsConfirmPasswordValid(true)
-      : setIsConfirmPasswordValid(false);
-    setConfirmPassword(event.target.value);
+    const confirmPassword = event.target.value;
+    const isValid =
+      confirmPassword.length >= 5 &&
+      confirmPassword.length <= 50 &&
+      confirmPassword === usernameAndPassword.password;
+    setIsConfirmPasswordValid(isValid);
+    setConfirmPassword(confirmPassword);
+    setIsValid(isValid && isUsernameValid && isPasswordValid);
   };
 
-  const handlerSubmit = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     if (isValid) {
       registration(usernameAndPassword)
@@ -77,14 +79,14 @@ const Registration = () => {
         <Button
           colorScheme="teal"
           variant="link"
-          display={"flex"}
-          p={"3px"}
-          m={"15px auto"}
-          mb={"10px"}
-          fontSize={"25px"}
-          fontWeight={"550"}
-          justifyContent={"center"}
-          color={"beige"}
+          display="flex"
+          p="3px"
+          m="15px auto"
+          mb="10px"
+          fontSize="25px"
+          fontWeight="550"
+          justifyContent="center"
+          color="beige"
           _hover={{
             borderBottom: "solid rgb(240, 200, 90)",
           }}
@@ -92,7 +94,7 @@ const Registration = () => {
         >
           LOGIN
         </Button>
-        <form className="registration" onSubmit={handlerSubmit}>
+        <form className="registration" onSubmit={handleSubmit}>
           <VStack>
             <AuthInput
               isValid={isUsernameValid}
@@ -123,24 +125,30 @@ const Registration = () => {
             />
           </VStack>
           <Button
-            m={"20px"}
-            mt={"20px"}
-            mb={"35px"}
-            p={"15px"}
-            w={"300px"}
-            fontWeight={"600"}
-            borderStyle={"none"}
-            borderRadius={"40px"}
+            m="20px"
+            mt="20px"
+            mb="35px"
+            p="15px"
+            w="300px"
+            fontWeight="600"
+            borderStyle="none"
+            borderRadius="40px"
             backgroundColor={
-              isValid ? "rgb(180, 180, 15)" : "rgb(60, 60, 60, 0.5)"
+              isValid && usernameAndPassword.password === confirmPassword
+                ? "rgb(180, 180, 15)"
+                : "rgb(60, 60, 60, 0.5)"
             }
-            pointerEvents={isValid ? "auto" : "none"}
-            color={"white"}
-            userSelect={"none"}
+            pointerEvents={
+              isValid && usernameAndPassword.password === confirmPassword
+                ? "auto"
+                : "none"
+            }
+            color="white"
+            userSelect="none"
             _hover={{
               backgroundColor: "rgba(190, 170, 15, 0.5)",
             }}
-            type={"submit"}
+            type="submit"
           >
             REGISTRATION
           </Button>
