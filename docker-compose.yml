@@ -4,7 +4,6 @@ services:
   db:
     image: postgres:15
     container_name: db
-    restart: unless-stopped
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -14,46 +13,32 @@ services:
     volumes:
       - db:/var/lib/postgresql/data
       - ./db/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+    restart: unless-stopped
 
   backend:
-    build: ./backend
     container_name: backend
-    restart: unless-stopped
+    build: ./backend
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
     ports:
       - "8080:8080"
     links:
       - db
     depends_on:
       - db
-    environment:
-      - DB_HOST=db
-      - DB_PORT=5432
-      - DB_USER=postgres
-      - DB_PASSWORD=postgres
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/docs"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+    restart: unless-stopped
 
   frontend:
-    build: ./frontend
     container_name: frontend
-    restart: unless-stopped
+    build: ./frontend
     ports:
       - "5173:5173"
     depends_on:
       - backend
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5173/"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+    restart: unless-stopped
 
 networks:
   db:
