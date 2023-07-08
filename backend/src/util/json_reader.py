@@ -1,7 +1,6 @@
 from fastapi import HTTPException, status
 import json
 
-
 def read_JSON(path_to_file: str, file_name: str):
     try:
         with open(path_to_file) as file:
@@ -11,4 +10,9 @@ def read_JSON(path_to_file: str, file_name: str):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"{file_name} not found"
+        )
+    except (PermissionError, IOError) as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error reading {file_name}: {str(e)}"
         )

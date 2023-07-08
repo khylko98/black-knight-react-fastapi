@@ -17,7 +17,7 @@ dialogs.</i>
 #
 ### Backend: FastAPI with implementation JSON Web Token
 ### Frontend: React with Vite and Chakra UI
-### Database: PostgreSQL
+### Database: MongoDB
 #
 
 <br />

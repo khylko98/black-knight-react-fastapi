@@ -1,49 +1,18 @@
 version: "3"
 
 services:
-  db:
-    image: postgres:15
-    container_name: db
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=api
-    ports:
-      - "5432:5432"
-    volumes:
-      - db:/var/lib/postgresql/data
-      - ./db/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
-    restart: unless-stopped
-
   backend:
     container_name: backend
     build: ./backend
-    environment:
-      - DB_HOST=db
-      - DB_PORT=5432
-      - DB_USER=postgres
-      - DB_PASSWORD=postgres
     ports:
-      - "8080:8080"
-    links:
-      - db
-    depends_on:
-      - db
+      - "8888:8080"
     restart: unless-stopped
 
   frontend:
     container_name: frontend
     build: ./frontend
     ports:
-      - "5173:5173"
+      - "5773:5173"
+    restart: unless-stopped
     depends_on:
       - backend
-    restart: unless-stopped
-
-networks:
-  db:
-    driver: bridge
-
-volumes:
-  db:
-    driver: local
