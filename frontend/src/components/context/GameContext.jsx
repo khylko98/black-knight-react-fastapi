@@ -8,16 +8,24 @@ export const useGameContext = () => {
 
   const getLoading = () => {
     return (
-      <Center>
-        <Spinner
-          m={"1.5"}
-          thickness={"4px"}
-          speed={"0.65s"}
-          emptyColor={"gray.200"}
-          color={"green.500"}
-          size={"xl"}
-        />
-      </Center>
+      <Box
+        display={"flex"}
+        position={"relative"}
+        h={"100vh"}
+        justifyContent={"center"}
+        alignItems={"center"}
+      >
+        <Center>
+          <Spinner
+            m={"1.5"}
+            thickness={"4px"}
+            speed={"0.65s"}
+            emptyColor={"gray.200"}
+            color={"green.500"}
+            size={"xl"}
+          />
+        </Center>
+      </Box>
     );
   };
 

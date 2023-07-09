@@ -56,12 +56,12 @@ const SecondChapter = () => {
             isTalkOptionResultVisible: false,
           };
           setData((prev) => [...prev, newData]);
+          setLoading(false);
         })
         .catch((err) => {
           setError(err.response.data.detail);
           errorNotification(err.response.data.detail);
-        })
-        .finally(setLoading(false));
+        });
     }
   };
 
@@ -70,7 +70,7 @@ const SecondChapter = () => {
   }, [part]);
 
   if (loading) {
-    getLoading();
+    return getLoading();
   }
 
   if (error) {

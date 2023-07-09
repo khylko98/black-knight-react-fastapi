@@ -45,12 +45,12 @@ const FifthChapter = () => {
             isTalkOptionResultVisible: false,
           };
           setData((prev) => [...prev, newData]);
+          setLoading(false);
         })
         .catch((err) => {
           setError(err.response.data.detail);
           errorNotification(err.response.data.detail);
-        })
-        .finally(setLoading(false));
+        });
     }
   };
 
@@ -59,7 +59,7 @@ const FifthChapter = () => {
   }, [part]);
 
   if (loading) {
-    getLoading();
+    return getLoading();
   }
 
   if (error) {

@@ -29,12 +29,12 @@ const Prologue = () => {
       .then((res) => {
         const { mainText } = res.data;
         setData((prev) => [...prev, mainText]);
+        setLoading(false);
       })
       .catch((err) => {
         setError(err.response.data.detail);
         errorNotification(err.response.data.detail);
-      })
-      .finally(setLoading(false));
+      });
   };
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const Prologue = () => {
   }, []);
 
   if (loading) {
-    getLoading();
+    return getLoading();
   }
 
   if (error) {

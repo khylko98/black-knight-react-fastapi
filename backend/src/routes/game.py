@@ -17,7 +17,7 @@ cwd = os.getcwd()
     responses={
         status.HTTP_200_OK: {
             "description": "Prologue data retrieved successfully",
-            "content": {"application/json": {"example": {"mainText": ["..."]}}}
+            "content": {"application/json": {"example": {"mainText": "[...]"}}}
         },
         status.HTTP_401_UNAUTHORIZED: {
             "description": "Unauthorized access",
@@ -47,7 +47,7 @@ async def prologue() -> dict:
     responses={
         status.HTTP_200_OK: {
             "description": "Chapter data retrieved successfully",
-            "content": {"application/json": {"example": {"mainText": ["..."]}}}
+            "content": {"application/json": {"example": {"mainText": "[...]", "talkOption": "[...]", "talkOptionResult": "[...]"}}}
         },
         status.HTTP_401_UNAUTHORIZED: {
             "description": "Unauthorized access",
@@ -81,7 +81,7 @@ async def chapters(chapter: str, part: str) -> dict:
     responses={
         status.HTTP_200_OK: {
             "description": "Epilogue data retrieved successfully",
-            "content": {"application/json": {"example": {"epilogue": {...}}}}
+            "content": {"application/json": {"example": {"epilogue": "[...]"}}}
         },
         status.HTTP_401_UNAUTHORIZED: {
             "description": "Unauthorized access",
