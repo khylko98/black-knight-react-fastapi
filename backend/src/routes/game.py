@@ -4,12 +4,13 @@ from ..security.auth import Auth
 from ..util.json_reader import read_JSON
 import os
 
-game = APIRouter(tags=['game'])
+game = APIRouter(tags=["game"])
 
 cwd = os.getcwd()
 
+
 @game.get(
-    f'{url_path}/prologue',
+    f"{url_path}/prologue",
     dependencies=[Depends(Auth())],
     status_code=status.HTTP_200_OK,
     summary="Retrieve Prologue",
@@ -17,13 +18,15 @@ cwd = os.getcwd()
     responses={
         status.HTTP_200_OK: {
             "description": "Prologue data retrieved successfully",
-            "content": {"application/json": {"example": {"mainText": "[...]"}}}
+            "content": {"application/json": {"example": {"mainText": "[...]"}}},
         },
         status.HTTP_401_UNAUTHORIZED: {
             "description": "Unauthorized access",
-            "content": {"application/json": {"example": {"detail": "Authentication required"}}}
-        }
-    }
+            "content": {
+                "application/json": {"example": {"detail": "Authentication required"}}
+            },
+        },
+    },
 )
 async def prologue() -> dict:
     """
@@ -38,8 +41,9 @@ async def prologue() -> dict:
     response = read_JSON(path, name)
     return response
 
+
 @game.get(
-    f'{url_path}/chapters',
+    f"{url_path}/chapters",
     dependencies=[Depends(Auth())],
     status_code=status.HTTP_200_OK,
     summary="Retrieve Chapter",
@@ -47,13 +51,23 @@ async def prologue() -> dict:
     responses={
         status.HTTP_200_OK: {
             "description": "Chapter data retrieved successfully",
-            "content": {"application/json": {"example": {"mainText": "[...]", "talkOption": "[...]", "talkOptionResult": "[...]"}}}
+            "content": {
+                "application/json": {
+                    "example": {
+                        "mainText": "[...]",
+                        "talkOption": "[...]",
+                        "talkOptionResult": "[...]",
+                    }
+                }
+            },
         },
         status.HTTP_401_UNAUTHORIZED: {
             "description": "Unauthorized access",
-            "content": {"application/json": {"example": {"detail": "Authentication required"}}}
-        }
-    }
+            "content": {
+                "application/json": {"example": {"detail": "Authentication required"}}
+            },
+        },
+    },
 )
 async def chapters(chapter: str, part: str) -> dict:
     """
@@ -72,8 +86,9 @@ async def chapters(chapter: str, part: str) -> dict:
     response = read_JSON(path, name)
     return response
 
+
 @game.get(
-    f'{url_path}/epilogue',
+    f"{url_path}/epilogue",
     dependencies=[Depends(Auth())],
     status_code=status.HTTP_200_OK,
     summary="Retrieve Epilogue",
@@ -81,13 +96,15 @@ async def chapters(chapter: str, part: str) -> dict:
     responses={
         status.HTTP_200_OK: {
             "description": "Epilogue data retrieved successfully",
-            "content": {"application/json": {"example": {"epilogue": "[...]"}}}
+            "content": {"application/json": {"example": {"epilogue": "[...]"}}},
         },
         status.HTTP_401_UNAUTHORIZED: {
             "description": "Unauthorized access",
-            "content": {"application/json": {"example": {"detail": "Authentication required"}}}
-        }
-    }
+            "content": {
+                "application/json": {"example": {"detail": "Authentication required"}}
+            },
+        },
+    },
 )
 async def epilogue() -> dict:
     """

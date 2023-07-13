@@ -6,7 +6,7 @@ try:
     db = db_connection.api
     collection = db["users"]
 except Exception as e:
-    # Handle the exception appropriately 
+    # Handle the exception appropriately
     # (e.g., logging, error reporting, fallback mechanism)
     print(f"Error connecting to MongoDB: {e}")
     raise

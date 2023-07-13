@@ -14,9 +14,11 @@ setup_cors(app)
 app.include_router(auth)
 app.include_router(game)
 
-@app.get(f'{url_path}')
+
+@app.get(f"{url_path}")
 async def redirect():
     return RedirectResponse(f"{url_path}/login")
+
 
 @app.exception_handler(RequestValidationError)
 async def validation_exception(request, exc):

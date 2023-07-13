@@ -5,23 +5,28 @@ from ..config.env import url_path
 from ..security.pass_hash import Hash
 from ..security.token import generate_access_token
 
-auth = APIRouter(tags=['auth'])
+auth = APIRouter(tags=["auth"])
+
 
 @auth.post(
-    f'{url_path}/registration', 
+    f"{url_path}/registration",
     status_code=status.HTTP_200_OK,
     summary="User Registration",
     description="Registers a new user.",
     responses={
         status.HTTP_200_OK: {
             "description": "Successful registration",
-            "content": {"application/json": {"example": {"access_token": "..."}}}
+            "content": {"application/json": {"example": {"access_token": "..."}}},
         },
         status.HTTP_400_BAD_REQUEST: {
             "description": "Bad request or user already exists",
-            "content": {"application/json": {"example": {"detail": "User with this username already exists"}}}
-        }
-    }
+            "content": {
+                "application/json": {
+                    "example": {"detail": "User with this username already exists"}
+                }
+            },
+        },
+    },
 )
 async def registration(user: User) -> dict:
     """
@@ -36,8 +41,8 @@ async def registration(user: User) -> dict:
     username_already_exist = collection.find_one({"username": user.username})
     if username_already_exist:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, 
-            detail="User with this username already exists"
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="User with this username already exists",
         )
     hashed_password = Hash.bcrypt(user.password)
     user.password = hashed_password
@@ -47,29 +52,35 @@ async def registration(user: User) -> dict:
         return {"access_token": access_token}
     else:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, 
-            detail="User not created"
+            status_code=status.HTTP_400_BAD_REQUEST, detail="User not created"
         )
 
+
 @auth.post(
-    f'{url_path}/login',
+    f"{url_path}/login",
     status_code=status.HTTP_200_OK,
     summary="User Login",
     description="Logs in a user.",
     responses={
         status.HTTP_200_OK: {
             "description": "Successful login",
-            "content": {"application/json": {"example": {"access_token": "..."}}}
+            "content": {"application/json": {"example": {"access_token": "..."}}},
         },
         status.HTTP_400_BAD_REQUEST: {
             "description": "Bad request or user not found",
-            "content": {"application/json": {"example": {"detail": "User with this username not found"}}}
+            "content": {
+                "application/json": {
+                    "example": {"detail": "User with this username not found"}
+                }
+            },
         },
         status.HTTP_401_UNAUTHORIZED: {
             "description": "Unauthorized access",
-            "content": {"application/json": {"example": {"detail": "Incorrect password"}}}
-        }
-    }
+            "content": {
+                "application/json": {"example": {"detail": "Incorrect password"}}
+            },
+        },
+    },
 )
 async def login(user: User) -> dict:
     """
@@ -86,13 +97,12 @@ async def login(user: User) -> dict:
     if not username_already_exist:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="User with this username not found"
+            detail="User with this username not found",
         )
     if Hash.verify(user.password, username_already_exist["password"]):
         access_token = generate_access_token(user.username)
         return {"access_token": access_token}
     else:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect password"
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect password"
         )

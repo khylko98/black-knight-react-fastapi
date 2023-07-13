@@ -12,7 +12,7 @@ try:
     algorithm_type = env_config.get("algorithm_type", default="")
     url_path = env_config.get("url_path", default="")
 except Exception as e:
-    # Handle the exception appropriately 
+    # Handle the exception appropriately
     # (e.g., logging, error reporting, fallback values)
     print(f"Error reading configuration: {e}")
     raise
