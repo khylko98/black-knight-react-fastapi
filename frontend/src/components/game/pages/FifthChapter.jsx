@@ -33,7 +33,6 @@ const FifthChapter = () => {
 
   const fetchData = () => {
     if (part <= MAX_PARTS) {
-      setLoading(true);
       getChapter(CHAPTER, part)
         .then((res) => {
           const { mainText, talkOption, talkOptionResult } = res.data;

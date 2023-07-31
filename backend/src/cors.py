@@ -1,9 +1,12 @@
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from .env import FRONTEND_URL
 
-def setup_cors(app):
+
+def setup_cors(app: FastAPI):
     origins = [
-        "http://localhost:5773",
+        FRONTEND_URL,
     ]
 
     app.add_middleware(

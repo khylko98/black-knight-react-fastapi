@@ -3,7 +3,7 @@ import { Center, Spinner, Box, Container, Text } from "@chakra-ui/react";
 
 export const useGameContext = () => {
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   const getLoading = () => {

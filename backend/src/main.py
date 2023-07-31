@@ -1,11 +1,13 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, status
 from fastapi.responses import RedirectResponse
 from fastapi.exceptions import RequestValidationError
-from .config.env import url_path
-from .routes.auth import auth
-from .routes.game import game
-from .util.exception_handler import validation_exception_handler
-from .config.cors import setup_cors
+
+from .cors import setup_cors
+from .env import API_URL
+from .routers.auth import auth
+from .routers.game import game
+from .utils.exception_handler import validation_exception_handler
+
 
 app = FastAPI()
 
@@ -15,9 +17,12 @@ app.include_router(auth)
 app.include_router(game)
 
 
-@app.get(f"{url_path}")
-async def redirect():
-    return RedirectResponse(f"{url_path}/login")
+@app.get("/")
+async def root():
+    response = RedirectResponse(
+        url=f"{API_URL}/login", status_code=status.HTTP_307_TEMPORARY_REDIRECT
+    )
+    return response
 
 
 @app.exception_handler(RequestValidationError)

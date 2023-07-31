@@ -1,8 +1,11 @@
-from fastapi import APIRouter, Depends, status
-from ..config.env import url_path
-from ..security.auth import Auth
-from ..util.json_reader import read_JSON
 import os
+
+from fastapi import APIRouter, Depends, status
+
+from ..env import API_URL
+from ..jwt.filter import JwtAuthFilter
+from ..utils.json_reader import read_json
+
 
 game = APIRouter(tags=["game"])
 
@@ -10,8 +13,8 @@ cwd = os.getcwd()
 
 
 @game.get(
-    f"{url_path}/prologue",
-    dependencies=[Depends(Auth())],
+    f"{API_URL}/prologue",
+    dependencies=[Depends(JwtAuthFilter())],
     status_code=status.HTTP_200_OK,
     summary="Retrieve Prologue",
     description="Retrieve the prologue data.",
@@ -36,15 +39,15 @@ async def prologue() -> dict:
     :rtype: dict
     :raises HTTPException 401: If authentication fails.
     """
-    path = f"{cwd}/resources/static/prologue.json"
+    path = f"{cwd}/res/prologue.json"
     name = "Prologue"
-    response = read_JSON(path, name)
+    response = await read_json(path, name)
     return response
 
 
 @game.get(
-    f"{url_path}/chapters",
-    dependencies=[Depends(Auth())],
+    f"{API_URL}/chapters",
+    dependencies=[Depends(JwtAuthFilter())],
     status_code=status.HTTP_200_OK,
     summary="Retrieve Chapter",
     description="Retrieve data for a specific chapter and part.",
@@ -81,15 +84,15 @@ async def chapters(chapter: str, part: str) -> dict:
     :rtype: dict
     :raises HTTPException 401: If authentication fails.
     """
-    path = f"{cwd}/resources/static/chapter-{chapter}-{part}.json"
+    path = f"{cwd}/res/chapter-{chapter}-{part}.json"
     name = f"Chapter-{chapter}-{part}"
-    response = read_JSON(path, name)
+    response = await read_json(path, name)
     return response
 
 
 @game.get(
-    f"{url_path}/epilogue",
-    dependencies=[Depends(Auth())],
+    f"{API_URL}/epilogue",
+    dependencies=[Depends(JwtAuthFilter())],
     status_code=status.HTTP_200_OK,
     summary="Retrieve Epilogue",
     description="Retrieve the epilogue data.",
@@ -114,7 +117,7 @@ async def epilogue() -> dict:
     :rtype: dict
     :raises HTTPException 401: If authentication fails.
     """
-    path = f"{cwd}/resources/static/epilogue.json"
+    path = f"{cwd}/res/epilogue.json"
     name = "Epilogue"
-    response = read_JSON(path, name)
+    response = await read_json(path, name)
     return response

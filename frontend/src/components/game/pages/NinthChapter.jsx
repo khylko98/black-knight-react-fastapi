@@ -34,7 +34,6 @@ const NinthChapter = () => {
 
   const fetchData = () => {
     if (part <= MAX_PARTS) {
-      setLoading(true);
       getChapter(CHAPTER, part)
         .then((res) => {
           const {

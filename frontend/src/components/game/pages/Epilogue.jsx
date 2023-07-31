@@ -23,7 +23,6 @@ const Epilogue = () => {
   const navigate = useNavigate();
 
   const fetchData = () => {
-    setLoading(true);
     getEpilogue()
       .then((res) => {
         const { mainText } = res.data;

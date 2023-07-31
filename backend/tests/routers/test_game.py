@@ -1,8 +1,13 @@
-from fastapi.testclient import TestClient
-from src.main import app
 import pytest
 
+from fastapi.testclient import TestClient
+
+from src.main import app
+
+
 client = TestClient(app)
+
+API_URL = "/api/v1"
 
 
 @pytest.fixture
@@ -16,32 +21,6 @@ def access_token():
 def assert_main_text_exists(response):
     assert response.status_code == 200
     assert response.json().get("mainText") is not None
-
-
-def test_registration_error():
-    response = client.post("/api/v1/registration", json={"password": ""})
-    assert response.json().get("access_token") is None
-    assert response.json().get("detail") is not None
-
-
-def test_login_error():
-    response = client.post("/api/v1/login", json={"username": ""})
-    assert response.json().get("access_token") is None
-    assert response.json().get("detail") is not None
-
-
-def test_registration_success():
-    response = client.post(
-        "/api/v1/registration", json={"username": "username", "password": "password"}
-    )
-    assert response.json().get("access_token") is not None
-
-
-def test_login_success():
-    response = client.post(
-        "/api/v1/login", json={"username": "username", "password": "password"}
-    )
-    assert response.json().get("access_token") is not None
 
 
 def test_prologue_success(access_token):

@@ -24,7 +24,6 @@ const Prologue = () => {
   const navigate = useNavigate();
 
   const fetchData = () => {
-    setLoading(true);
     getPrologue()
       .then((res) => {
         const { mainText } = res.data;

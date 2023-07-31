@@ -1,15 +1,17 @@
 from fastapi import APIRouter, HTTPException, status
-from ..models.user_model import User
-from ..config.db import collection
-from ..config.env import url_path
-from ..security.pass_hash import Hash
-from ..security.token import generate_access_token
+
+from ..model import User
+from ..db import collection
+from ..env import API_URL
+from ..utils.password_hashing import Hash
+from ..jwt.token import generate_token
+
 
 auth = APIRouter(tags=["auth"])
 
 
 @auth.post(
-    f"{url_path}/registration",
+    f"{API_URL}/registration",
     status_code=status.HTTP_200_OK,
     summary="User Registration",
     description="Registers a new user.",
@@ -48,7 +50,7 @@ async def registration(user: User) -> dict:
     user.password = hashed_password
     _id = collection.insert_one(dict(user))
     if _id:
-        access_token = generate_access_token(user.username)
+        access_token = generate_token(user.username)
         return {"access_token": access_token}
     else:
         raise HTTPException(
@@ -57,7 +59,7 @@ async def registration(user: User) -> dict:
 
 
 @auth.post(
-    f"{url_path}/login",
+    f"{API_URL}/login",
     status_code=status.HTTP_200_OK,
     summary="User Login",
     description="Logs in a user.",
@@ -100,7 +102,7 @@ async def login(user: User) -> dict:
             detail="User with this username not found",
         )
     if Hash.verify(user.password, username_already_exist["password"]):
-        access_token = generate_access_token(user.username)
+        access_token = generate_token(user.username)
         return {"access_token": access_token}
     else:
         raise HTTPException(
