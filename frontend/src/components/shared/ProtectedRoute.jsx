@@ -10,7 +10,7 @@ const ProtectedRoute = ({ children }) => {
     if (!isCustomerAuthenticated()) {
       navigate("/");
     }
-  }, []);
+  }, [isCustomerAuthenticated]);
 
   return isCustomerAuthenticated() ? children : null;
 };
