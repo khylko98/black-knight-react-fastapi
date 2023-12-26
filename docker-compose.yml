@@ -1,18 +1,46 @@
 version: "3"
 
 services:
-  backend:
-    container_name: backend
-    build: ./backend
-    ports:
-      - "8888:8080"
-    restart: unless-stopped
+    db:
+        container_name: db
+        image: mongo
+        ports:
+            - "27117:27017"
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: user
+            MONGO_INITDB_ROOT_PASSWORD: password
+            MONGO_INITDB_DATABASE: appdb
+        volumes:
+            - ./backend/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+            - mongodb-data:/data/db
+        networks:
+            - db
 
-  frontend:
-    container_name: frontend
-    build: ./frontend
-    ports:
-      - "5773:5173"
-    restart: unless-stopped
-    depends_on:
-      - backend
+    backend:
+        container_name: backend
+        build: ./backend
+        ports:
+            - "8888:8080"
+        restart: unless-stopped
+        networks:
+            - db
+        depends_on:
+            - db
+
+    frontend:
+        container_name: frontend
+        build: ./frontend
+        ports:
+            - "5773:5173"
+        restart: unless-stopped
+        depends_on:
+            - backend
+        networks:
+            - db
+
+networks:
+    db:
+        driver: bridge
+
+volumes:
+    mongodb-data:

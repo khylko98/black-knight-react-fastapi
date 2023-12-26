@@ -4,8 +4,8 @@ from .env import DATABASE_URL
 
 
 try:
-    db_connection = MongoClient(DATABASE_URL)
-    db = db_connection.api
+    client = MongoClient(DATABASE_URL, username="user", password="password")
+    db = client["db"]
     collection = db["users"]
 except Exception as e:
     print(f"Error connecting to MongoDB: {e}")
